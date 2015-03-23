@@ -10,6 +10,7 @@ def hello(request):
         </head>
         <body>
         	<h1>Hello world!</h1>
+        	<ul>
         '''
 	if request.method == 'GET':
 		query =  request.GET.dict()
@@ -17,8 +18,9 @@ def hello(request):
 		query =  request.POST.dict()
 
 	for key in query.keys():
-				data += '<p>' +  key + ' = ' + query[key] + '</p>'
+				data += '<li>' +  key + ' = ' + query[key] + '</li>'
 
-	data += '''</body>
+	data += '''</ul>
+		</body>
 	</html>'''
 	return HttpResponse(data)
