@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<div class="col-xs-9">
+   <div class="log-in-container panel panel-primary">
+       <div class="h_tags panel-heading" id="panel-h">Log In</div>
+       <div class="panel-body">
+           <div class="alert alert-danger" role="alert">
+               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+               Sorry, wrong login or password...
+           </div>
+           <form class="form-horizontal">
+               <div class="form-group">
+                   <label for="inputLogin" class="col-xs-3 control-label">Login</label>
+                   <div class="col-xs-4">
+                       <input type="text" class="form-control" id="inputLogin" maxlength="15" placeholder="Enter your login here">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="inputPassword" class="col-xs-3 control-label">Password</label>
+                   <div class="col-xs-4">
+                       <input type="password" class="form-control" maxlength="20" id="inputPassword" placeholder="Password">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-xs-offset-3 col-xs-4">
+                       <button type="submit" class="btn btn-success">Log In!</button>
+                   </div>
+               </div>
+           </form>
+       </div>   
+    </div>
+</div>
+{% endblock %}

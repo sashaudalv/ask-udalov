@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}AskUdalov{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="http://ask-udalov.me/bootstrap.css" rel="stylesheet">
+    <link href="http://ask-udalov.me/blog.css" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+     <div class="cont_fixed">
+          <nav class="navbar navbar-default">
+            <div class="row navbar-container">
+                <div class="col-xs-2">
+                    <a class="navbar-brand" rel="home" href="/" title="AskUdalov - Homepage">AskUdalov</a>
+                </div>
+                    <div class="col-xs-7">
+                        <form class="nav-search" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" name="srch-question" id="srch-question">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-success">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="hidden" id="authorized_user">
+                            <a href="#" class="navbar-avatar-link">
+                                <img src="http://lorempixel.com/50/50" class="img-circle navbar-avatar-img" id="avatar">  
+                            </a>
+                            <div class="user-block">
+                                <div id="user_name" class="user-name-header">Alexandr Udalov</div>
+                                <a href="#" class="navbar-link" id="user-block-settings">settings</a>
+                                <a href="#" class="navbar-link">log out</a>
+                            </div>
+                        </div>
+                        <div class="shown hidden-user-block" id="non_authorized_user">
+                             <a href="/login" class="navbar-link" id="hidden-user-block-log-in">log in</a>
+                             <a href="/register" class="navbar-link">register</a>
+                        </div>
+                    </div>
+              </div>
+          </nav>
+          <div class="row">
+              <div class="col-xs-3 blog-sidebar">
+                  <div class="new-question-btn">
+                    <a type="button" href="/ask" class="btn btn-success btn-block">Ask Question!</a> 
+                  </div>
+                  <div class="sidebar-module sidebar-module-inset">
+                    <div class="h_tags">Popular Tags</div>
+                    <div class="nav nav-pills">
+                        <span> 
+                            <a href="#" class="label label-primary tags">django</a>
+                        </span>
+                        <span> 
+                            <a href="#" class="label label-primary tags">perl</a>
+                        </span>
+                        <span> 
+                            <a href="#" class="label label-primary tags">TechnoPark</a>
+                        </span>
+                        <span> 
+                            <a href="#" class="label label-primary tags">Voloshin</a>
+                        </span>
+                        <span> 
+                            <a href="#" class="label label-primary tags">python</a>
+                        </span>
+                        <span> 
+                            <a href="#" class="label label-primary tags">StackOverflow</a>
+                        </span>
+                    </div>
+                  </div>
+                  <div class="sidebar-module">
+                    <h2>Best Members</h2>
+                    <ol class="list-unstyled">
+                      <li><a href="#">Mr. Freeman</a></li>
+                      <li><a href="#">Dr. House</a></li>
+                      <li><a href="#">Bender</a></li>
+                      <li><a href="#">Queen Victoria</a></li>
+                      <li><a href="#">V Pupkin</a></li>
+                    </ol>
+                  </div>
+              </div>
+              {% block content %}{% endblock %}
+          </div>
+        </div>
+      <script src="http://ask-udalov.me/jquery-2.1.3.js"></script>
+      <script src="http://ask-udalov.me/bootstrap.js"></script>
+        {% block scripts %}{% endblock %}
+  </body>
+</html>

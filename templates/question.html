@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Question{% endblock %}
+
+{% block content %}
+<div class="col-xs-9">
+   <div class="one-question-container">
+       <div class="question-container">
+           <div class="row">
+               <div class="col-xs-2">
+                   <div class="question-left">
+                       <a href="#" class="question-avatar-link" id="question-avatar">
+                           <img src="http://lorempixel.com/75/75" class="img-rounded question-avatar-img" id="avatar">  
+                       </a>
+                       <div class="btn-group btn-group-xs likes-container">
+                           <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
+                           </button>
+                           <button class="btn btn-success" id="like-btn-counter">4</button>
+                           <button href="#" class="btn btn-success" id="like-btn-right">
+                               <span class="glyphicon glyphicon-minus"></span>
+                           </button>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-xs-10">
+                   <div class="question-right">
+                       <div class="question-header" id="question-header">How to parse get parameters?</div>
+                       <div id="question-body">BaseHTTPHandler from the BaseHTTPServer module doesn't seem to provide any convenient way to access http request parameters. What is the best way to parse the GET parameters from the path, and the POST parameters from the request body?
+Right now, I'm using this for GET:
+This works for most cases, but I'd like something more robust that handles encodings and cases like empty parameters properly. Ideally, I'd like something small and standalone, rather than a full web framework.</div>
+                   </div>
+                   <div class="question-tags" id="one-question-tags">
+                       <span> 
+                           <a href="#" class="label label-primary tags">django</a>
+                       </span>
+                       <span> 
+                           <a href="#" class="label label-primary tags">python</a>
+                       </span>
+                       <span> 
+                           <a href="#" class="label label-primary tags">TechnoPark</a>
+                       </span>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div class="divider"></div>
+    </div>
+    <div class="answers-container">
+         {% for i in "678" %}
+            <div class="answer-container">
+            <div class="row">
+               <div class="col-xs-2">
+                   <div class="answer-left">
+                       <a href="#" class="question-avatar-link" id="question-avatar">
+                           <img src="http://lorempixel.com/7{{i}}/7{{i}}" class="img-rounded question-avatar-img" id="avatar">  
+                       </a>
+                       <div class="btn-group btn-group-xs likes-container">
+                           <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
+                           </button>
+                           <button class="btn btn-success" id="like-btn-counter">4</button>
+                           <button href="#" class="btn btn-success" id="like-btn-right">
+                               <span class="glyphicon glyphicon-minus"></span>
+                           </button>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-xs-10">
+                   <div class="question-right">
+                       <div id="answer-body">You could try the Werkzeug modules, the base Werkzeug library isn't too large and if needed you can simply extract this bit of code and you're done.
+The url_decode method returns a MultiDict and has encoding support :) </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-xs-2">
+                           <div class="checkbox">
+                               <label>
+                                   <input type="checkbox"> Correct!
+                               </label>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+       {% endfor %}
+    </div>
+    <div class="input-answer-container">
+        <form class="form">
+            <div class="form-group">
+                <textarea type="text" class="form-control question-textarea" rows="5" id="inputText" placeholder="Enter your answer here..." maxlength="500"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Answer</button>
+            </div>
+        </form>
+    </div>
+</div>   
+{% endblock %}

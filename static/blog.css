@@ -1,0 +1,224 @@
+/* Sidebar modules for boxing content */
+.sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 0px;
+}
+.sidebar-module-inset {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+}
+.blog-sidebar{
+	float: right;
+	padding-right: 30px;
+}
+.h_tags{
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+.questions-by-tag-container
+.h_tags{
+    margin-bottom: 20px;
+}
+.ask-question-container
+.h_tags{
+    margin-bottom: 20px;
+}
+#panel-h{
+    margin-bottom: 0px;
+}
+.tags{
+	font-size: 11px;
+	margin-top: 10px; 
+	margin-bottom: 10px;
+    border-radius: 6px;
+}
+.questions-by-tag{
+	margin-left: 20px;
+}
+.question-container{
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+.one-question-container
+.question-container{
+    padding: 10px;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+}
+.navbar-avatar-link{
+    height: 50px; 
+    width: 50px; 
+    float: left;
+}
+.navbar-avatar-img{
+    height: 50px; 
+    width: 50px;
+}
+.question-avatar-link{
+    height: 75px; 
+    width: 75px; 
+    float: left;
+}
+.question-avatar-img{
+    height: 75px; 
+    width: 75px; 
+}
+.question-left{
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+.question-right{
+    box-sizing: border-box;
+}
+.cont_fixed {
+    width: 1000px;
+    margin: auto;
+}
+.nav-search{
+  margin-top: 8px;
+  margin-right: -15px;
+  margin-bottom: 8px;
+  margin-left: -15px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);
+}
+.likes-container::before{
+    clear: both;
+}
+.likes-container{
+    position: relative;
+    padding-left: 0px;
+    padding-top: 10px;
+}
+#like-btn-left{
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+}
+#like-btn-counter{
+    width: 27px;
+}
+#like-btn-right{
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+}
+.questions-by-tag-container{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+h3,
+.question-header{
+    font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+    margin-bottom: 5px;
+    font-size: 20px
+}
+.one-question-container
+.question-header{
+    margin-bottom: 15px;
+}
+.answers-btn{
+    margin-top: 18px;
+}
+#answers-btn{
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+}
+.question-tags{
+    margin-top: 18px;
+    float: right;
+}
+.one-question-container
+.question-tags{
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.navbar-container{
+    padding: 5px;
+}
+.user-block{
+    padding-left: 70px;
+}
+#user-block-settings{
+    padding-right: 10px;
+}
+.user-name-header{
+    font-size: 20px;
+}
+.hidden-user-block{
+    padding-left: 50px;
+    margin-top: 15px
+}
+#hidden-user-block-log-in{
+     padding-right: 20px;
+}
+.ask-question-container{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.one-question-container{
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+.log-in-container{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.new-question-btn{
+    min-width: 200px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-bottom: 20px;
+}
+.registration-container{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.question-textarea{
+    resize: vertical;
+}
+#inputAvatar{
+    padding: 6px 0px;
+    font-size: 14px;
+}
+.answers-container{
+    margin-left: 30px;
+    margin-right: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.answer-container{
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+.answer-left{
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+.answer-right{
+    box-sizing: border-box;
+}
+.input-answer-container{
+    margin-top: 15px;
+    margin-left: 30px;
+    margin-right: 10px;
+}
+.questions-tabs{
+    float: right;
+}

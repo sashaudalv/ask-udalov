@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}New Question{% endblock %}
+
+{% block stylesheets %}
+    <link href="http://ask-udalov.me/bootstrap-tagsinput.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-9">
+   <div class="ask-question-container panel panel-success">
+       <div class="h_tags panel-heading" id="panel-h">New Question</div>
+       <div class="panel-body">
+           <form class="form-horizontal">
+               <div class="form-group">
+                   <label for="inputTitle" class="col-xs-1 control-label">Title</label>
+                   <div class="col-xs-11">
+                       <input type="text" class="form-control" id="inputTitle" maxlength="51" placeholder="Title">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="inputText" class="col-xs-1 control-label">Text</label>
+                   <div class="col-xs-11">
+                       <textarea type="text" class="form-control question-textarea" rows="5" id="inputText" placeholder="Text"></textarea>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="inputTags" class="col-xs-1 control-label">Tags</label>
+                   <div class="col-xs-11">
+                       <input type="text" class="form-control" id="inputTags" data-role="tagsinput" placeholder="Tags">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-xs-offset-1 col-xs-11">
+                       <button type="submit" class="btn btn-success">Ask!</button>
+                   </div>
+               </div>
+           </form>
+       </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="http://ask-udalov.me/bootstrap-tagsinput.js"></script>
+    <script src="http://ask-udalov.me/bootstrap-tagsinput-angular.js"></script>
+{% endblock %}

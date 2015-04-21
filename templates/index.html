@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}AskUdalov{% endblock %}
+
+{% block content %}
+<div class="col-xs-9">
+        <ul class="nav nav-tabs questions-tabs">
+            <li role="presentation" {% if sortBy == "Top" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=top">Top</a></li>
+            <li role="presentation" {% if sortBy == "New" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=new">New</a></li>
+            <li role="presentation" {% if sortBy == "All" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=all">All</a></li>     
+        </ul>
+    
+    
+    <div class="questions-by-tag-container">
+        
+        {% if foo %}
+            <div class="h_tags">{{foo}} Questions</div>
+        {% endif %}
+        
+        {% if tag %}
+            <div class="h_tags">Tag: {{tag}}</div>
+        {% endif %}
+        
+        {% for question in questions %}
+            <div class="question-container">
+               <div class="row">
+                   <div class="col-xs-2">
+                       <div class="question-left">
+                           <a href="#" class="question-avatar-link" id="question-avatar">
+                               <img src="{{question.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
+                           </a>
+                           <div class="btn-group btn-group-xs likes-container">
+                               <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
+                               </button>
+                               <button class="btn btn-success" id="like-btn-counter">{{question.rate}}</button>
+                               <button href="#" class="btn btn-success" id="like-btn-right">
+                                   <span class="glyphicon glyphicon-minus"></span>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="col-xs-10">
+                       <div class="question-right">
+                           <a href="/question"><div class="question-header" id="question-header">{{question.title}}</div></a>
+                           <div id="question-body">{{question.body|truncatewords:30}}</div>
+                       </div>
+                       <div class="row">
+                           <div class="col-xs-2">
+                               <div class="answers-btn">
+                                   <button class="btn btn-success btn-xs" type="button" id="answers-btn">
+                                             Answers <span class="badge">{{question.numAnswers}}</span>
+                                   </button>
+                               </div>
+                           </div>
+                           <div class="col-xs-7 col-xs-offset-3">
+                               <div class="question-tags">
+                                   {% for tag in question.tags %}
+                                   <span> 
+                                       <a href="#" class="label label-primary tags">{{tag}}</a>
+                                   </span>
+                                   {% endfor %}
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        {% endfor %}
+        {% if questions.has_other_pages %}
+           <nav>
+               <ul class="pagination">
+                  
+                    {% if questions.has_previous %}
+                            <li>
+                               <a href="?page={{ questions.previous_page_number }}" aria-label="Previous">
+                                   <span aria-hidden="true">&laquo;</span>
+                               </a>
+                            </li>
+                   {% endif %}
+                   
+                   {% for page in 5 %}
+                        {% if questions.number|add:"+page" < questions.num_pages %}
+                            <li {% if page == questions.number%} class="active" {% endif %}><a href="?page={{questions.number|add:"+page"}}">page</a></li>
+                        {% endif %}
+                   {% endfor %}
+               
+                    {% if questions.has_next %}
+                            <li>
+                               <a href="?page={{ questions.next_page_number }}" aria-label="Next">
+                                   <span aria-hidden="true">&raquo;</span>
+                               </a>
+                            </li>
+                    {% endif %}
+               
+               </ul>
+           </nav>
+        {% endif %}
+    </div>              
+</div>
+{% endblock %}
