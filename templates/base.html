@@ -28,28 +28,33 @@
                         </form>
                     </div>
                     <div class="col-xs-3">
-                        <div class="hidden" id="authorized_user">
-                            <a href="#" class="navbar-avatar-link">
-                                <img src="http://lorempixel.com/50/50" class="img-circle navbar-avatar-img" id="avatar">  
-                            </a>
-                            <div class="user-block">
-                                <div id="user_name" class="user-name-header">Alexandr Udalov</div>
-                                <a href="#" class="navbar-link" id="user-block-settings">settings</a>
-                                <a href="#" class="navbar-link">log out</a>
+                        {% if User %}
+                            <div id="authorized_user">
+                                <a href="#" class="navbar-avatar-link">
+                                    <img src="{{User.avatar}}" class="img-circle navbar-avatar-img" id="avatar">  
+                                </a>
+                                <div class="user-block">
+                                    <div id="user_name" class="user-name-header">{{User.nick_name}}</div>
+                                    <a href="#" class="navbar-link" id="user-block-settings">settings</a>
+                                    <a href="#" class="navbar-link">log out</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="shown hidden-user-block" id="non_authorized_user">
-                             <a href="/login" class="navbar-link" id="hidden-user-block-log-in">log in</a>
-                             <a href="/register" class="navbar-link">register</a>
-                        </div>
+                        {% else %}
+                            <div class="hidden-user-block" id="non_authorized_user">
+                                 <a href="/login" class="navbar-link" id="hidden-user-block-log-in">log in</a>
+                                 <a href="/register" class="navbar-link">register</a>
+                            </div>
+                        {% endif %}
                     </div>
               </div>
           </nav>
           <div class="row">
               <div class="col-xs-3 blog-sidebar">
-                  <div class="new-question-btn">
-                    <a type="button" href="/ask" class="btn btn-success btn-block">Ask Question!</a> 
-                  </div>
+                  {% if User %}
+                      <div class="new-question-btn">
+                        <a type="button" href="/ask" class="btn btn-success btn-block">Ask Question!</a> 
+                      </div>
+                  {% endif %}
                   <div class="sidebar-module sidebar-module-inset">
                     <div class="h_tags">Popular Tags</div>
                     <div class="nav nav-pills">

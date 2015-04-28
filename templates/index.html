@@ -5,34 +5,34 @@
 {% block content %}
 <div class="col-xs-9">
         <ul class="nav nav-tabs questions-tabs">
-            <li role="presentation" {% if sortBy == "Top" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=top">Top</a></li>
-            <li role="presentation" {% if sortBy == "New" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=new">New</a></li>
-            <li role="presentation" {% if sortBy == "All" %} class="active" {% endif %}><a data-toggle="tab" href="?sort=all">All</a></li>     
+            <li role="presentation" {% if sortBy == "top" %} class="active" {% endif %}><a href="?sort=top">Top</a></li>
+            <li role="presentation" {% if sortBy == "new" %} class="active" {% endif %}><a href="?sort=new">New</a></li>
+            <li role="presentation" {% if sortBy == "all" %} class="active" {% endif %}><a href="?sort=all">All</a></li>     
         </ul>
     
     
     <div class="questions-by-tag-container">
         
-        {% if foo %}
-            <div class="h_tags">{{foo}} Questions</div>
+        {% if sortBy %}
+            <div class="h_tags">{{sortBy|title}} Questions</div>
         {% endif %}
         
         {% if tag %}
             <div class="h_tags">Tag: {{tag}}</div>
         {% endif %}
         
-        {% for question in questions %}
+        {% for question in Questions %}
             <div class="question-container">
                <div class="row">
                    <div class="col-xs-2">
                        <div class="question-left">
-                           <a href="#" class="question-avatar-link" id="question-avatar">
+                           <a class="question-avatar-link" id="question-avatar">
                                <img src="{{question.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                            </a>
                            <div class="btn-group btn-group-xs likes-container">
                                <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
                                </button>
-                               <button class="btn btn-success" id="like-btn-counter">{{question.rate}}</button>
+                               <button class="btn btn-success" id="like-btn-counter">{{question.rating}}</button>
                                <button href="#" class="btn btn-success" id="like-btn-right">
                                    <span class="glyphicon glyphicon-minus"></span>
                                </button>
@@ -41,23 +41,23 @@
                    </div>
                    <div class="col-xs-10">
                        <div class="question-right">
-                           <a href="/question"><div class="question-header" id="question-header">{{question.title}}</div></a>
-                           <div id="question-body">{{question.body|truncatewords:30}}</div>
+                           <a href="/question/{{question.id}}"><div class="question-header" id="question-header">{{question.title}}</div></a>
+                           <div id="question-body">{{question.text|truncatewords:30}}</div>
                        </div>
                        <div class="row">
                            <div class="col-xs-2">
                                <div class="answers-btn">
                                    <button class="btn btn-success btn-xs" type="button" id="answers-btn">
-                                             Answers <span class="badge">{{question.numAnswers}}</span>
+                                             Answers <span class="badge">{{question.num_answers}}</span>
                                    </button>
                                </div>
                            </div>
                            <div class="col-xs-7 col-xs-offset-3">
                                <div class="question-tags">
-                                   {% for tag in question.tags %}
-                                   <span> 
-                                       <a href="#" class="label label-primary tags">{{tag}}</a>
-                                   </span>
+                                   {% for tag in question.tag %}
+                                       <span> 
+                                           <a href="#" class="label label-primary tags">{{tag}}</a>
+                                       </span>
                                    {% endfor %}
                                </div>
                            </div>
@@ -66,34 +66,61 @@
                </div>
            </div>
         {% endfor %}
-        {% if questions.has_other_pages %}
-           <nav>
-               <ul class="pagination">
-                  
-                    {% if questions.has_previous %}
+        {% if Questions.has_other_pages %}
+               <nav>
+                   <ul class="pagination">
+
+                       {% if Questions.has_previous %}
+                                <li>
+                                   <a href="?page={{ Questions.previous_page_number }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                       <span aria-hidden="true">&laquo;</span>
+                                   </a>
+                                </li>
+                       {% endif %}
+
+            
+                       {% if showFirst %}
                             <li>
-                               <a href="?page={{ questions.previous_page_number }}" aria-label="Previous">
-                                   <span aria-hidden="true">&laquo;</span>
-                               </a>
+                                <a href="?page=1{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                    <span aria-hidden="true">1</span>
+                                </a>
                             </li>
-                   {% endif %}
-                   
-                   {% for page in 5 %}
-                        {% if questions.number|add:"+page" < questions.num_pages %}
-                            <li {% if page == questions.number%} class="active" {% endif %}><a href="?page={{questions.number|add:"+page"}}">page</a></li>
+                            <li>
+                                <span aria-hidden="true">...</span>
+                            </li>
+                       {% endif %}                                                         
+
+
+                       {% for page in page_numbers %}
+                            <li {% if page == Questions.number %} class="active" {% endif %}>
+                                <a href="?page={{ page }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}">
+                                    <span aria-hidden="true">{{ page }}</span>
+                                </a>
+                            </li>
+                       {% endfor %}
+
+                       {% if showLast %}
+                            <li>
+                                <span aria-hidden="true">...</span>
+                            </li>
+                            <li>
+                                <a href="?page={{ Questions.paginator.num_pages }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                    <span aria-hidden="true">{{ Questions.paginator.num_pages }}</span>
+                                </a>
+                            </li>
+                       {% endif %}
+
+
+                        {% if Questions.has_next %}
+                                <li>
+                                   <a href="?page={{ Questions.next_page_number }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Next">
+                                       <span aria-hidden="true">&raquo;</span>
+                                   </a>
+                                </li>
                         {% endif %}
-                   {% endfor %}
-               
-                    {% if questions.has_next %}
-                            <li>
-                               <a href="?page={{ questions.next_page_number }}" aria-label="Next">
-                                   <span aria-hidden="true">&raquo;</span>
-                               </a>
-                            </li>
-                    {% endif %}
-               
-               </ul>
-           </nav>
+
+                   </ul>
+               </nav>
         {% endif %}
     </div>              
 </div>

@@ -81,8 +81,8 @@ DATABASES = {
         'NAME': 'ask_db',
         'USER': 'askuser',
         'PASSWORD': 'secret',
-        'HOST': '127.0.0.1',
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 

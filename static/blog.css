@@ -199,13 +199,18 @@ h3,
 .answers-container{
     margin-left: 30px;
     margin-right: 10px;
-    border-bottom: 1px solid #ccc;
 }
 .answer-container{
     border-radius: 6px;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
+}
+.answer-correct-container{
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgb(0, 211, 8);
 }
 .answer-left{
     box-sizing: border-box;
@@ -218,7 +223,16 @@ h3,
     margin-top: 15px;
     margin-left: 30px;
     margin-right: 10px;
-}
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+} 
 .questions-tabs{
     float: right;
+}
+.created-field{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: right;
+    font-style: italic;
+    color: grey;
 }

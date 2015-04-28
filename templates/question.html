@@ -9,13 +9,13 @@
            <div class="row">
                <div class="col-xs-2">
                    <div class="question-left">
-                       <a href="#" class="question-avatar-link" id="question-avatar">
-                           <img src="http://lorempixel.com/75/75" class="img-rounded question-avatar-img" id="avatar">  
+                       <a class="question-avatar-link" id="question-avatar">
+                           <img src="{{Question.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                        </a>
                        <div class="btn-group btn-group-xs likes-container">
                            <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
                            </button>
-                           <button class="btn btn-success" id="like-btn-counter">4</button>
+                           <button class="btn btn-success" id="like-btn-counter">{{Question.rating}}</button>
                            <button href="#" class="btn btn-success" id="like-btn-right">
                                <span class="glyphicon glyphicon-minus"></span>
                            </button>
@@ -24,21 +24,18 @@
                </div>
                <div class="col-xs-10">
                    <div class="question-right">
-                       <div class="question-header" id="question-header">How to parse get parameters?</div>
-                       <div id="question-body">BaseHTTPHandler from the BaseHTTPServer module doesn't seem to provide any convenient way to access http request parameters. What is the best way to parse the GET parameters from the path, and the POST parameters from the request body?
-Right now, I'm using this for GET:
-This works for most cases, but I'd like something more robust that handles encodings and cases like empty parameters properly. Ideally, I'd like something small and standalone, rather than a full web framework.</div>
+                       <div class="question-header" id="question-header">{{Question.title}}</div>
+                       <div id="question-body">{{Question.text}}</div>
                    </div>
                    <div class="question-tags" id="one-question-tags">
+                       {% for tag in Tags %}
                        <span> 
-                           <a href="#" class="label label-primary tags">django</a>
+                           <a href="/?tag={{tag.name}}" class="label label-primary tags">{{tag.name}}</a>
                        </span>
-                       <span> 
-                           <a href="#" class="label label-primary tags">python</a>
-                       </span>
-                       <span> 
-                           <a href="#" class="label label-primary tags">TechnoPark</a>
-                       </span>
+                       {% endfor %}
+                   </div>
+                   <div class="created-field">
+                       <div class="text">{{ Question.created|date:"d M Y" }} {{ Question.created|time:"H:i" }}</div>
                    </div>
                </div>
            </div>
@@ -46,18 +43,18 @@ This works for most cases, but I'd like something more robust that handles encod
        <div class="divider"></div>
     </div>
     <div class="answers-container">
-         {% for i in "678" %}
-            <div class="answer-container">
+         {% for answer in Answers %}
+            <div class="{% if answer.isCorrect %} answer-correct-container {% else %} answer-container {% endif %}">
             <div class="row">
                <div class="col-xs-2">
                    <div class="answer-left">
-                       <a href="#" class="question-avatar-link" id="question-avatar">
-                           <img src="http://lorempixel.com/7{{i}}/7{{i}}" class="img-rounded question-avatar-img" id="avatar">  
+                       <a class="question-avatar-link" id="question-avatar">
+                           <img src="{{answer.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                        </a>
                        <div class="btn-group btn-group-xs likes-container">
                            <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
                            </button>
-                           <button class="btn btn-success" id="like-btn-counter">4</button>
+                           <button class="btn btn-success" id="like-btn-counter">{{answer.rating}}</button>
                            <button href="#" class="btn btn-success" id="like-btn-right">
                                <span class="glyphicon glyphicon-minus"></span>
                            </button>
@@ -66,15 +63,19 @@ This works for most cases, but I'd like something more robust that handles encod
                </div>
                <div class="col-xs-10">
                    <div class="question-right">
-                       <div id="answer-body">You could try the Werkzeug modules, the base Werkzeug library isn't too large and if needed you can simply extract this bit of code and you're done.
-The url_decode method returns a MultiDict and has encoding support :) </div>
+                       <div id="answer-body">{{answer.text}}</div>
                    </div>
                    <div class="row">
                        <div class="col-xs-2">
-                           <div class="checkbox">
+                           <div class="checkbox {% if User.id != answer.user %} disabled {% endif %}">
                                <label>
-                                   <input type="checkbox"> Correct!
+                                   <input type="checkbox" {% if answer.isCorrect %} checked {% endif %} {% if User.id != answer.user %} disabled {% endif %}> Correct!
                                </label>
+                           </div>
+                       </div>
+                       <div class="col-xs-10">
+                            <div class="created-field">
+                                <div class="text">{{ answer.created|date:"d M Y" }} {{ answer.created|time:"H:i" }}</div>
                            </div>
                        </div>
                    </div>
@@ -82,16 +83,74 @@ The url_decode method returns a MultiDict and has encoding support :) </div>
            </div>
         </div>
        {% endfor %}
+        {% if Answers.has_other_pages %}
+               <nav>
+                   <ul class="pagination">
+
+                       {% if Answers.has_previous %}
+                                <li>
+                                   <a href="?page={{ Answers.previous_page_number }}" aria-label="Previous">
+                                       <span aria-hidden="true">&laquo;</span>
+                                   </a>
+                                </li>
+                       {% endif %}
+
+            
+                       {% if showFirst %}
+                            <li>
+                                <a href="?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <span aria-hidden="true">...</span>
+                            </li>
+                       {% endif %}                                                         
+
+
+                       {% for page in page_numbers %}
+                            <li {% if page == Answers.number %} class="active" {% endif %}>
+                                <a href="?page={{ page }}">
+                                    <span aria-hidden="true">{{ page }}</span>
+                                </a>
+                            </li>
+                       {% endfor %}
+
+                       {% if showLast %}
+                            <li>
+                                <span aria-hidden="true">...</span>
+                            </li>
+                            <li>
+                                <a href="?page={{ Answers.paginator.num_pages }}" aria-label="Previous">
+                                    <span aria-hidden="true">{{ Answers.paginator.num_pages }}</span>
+                                </a>
+                            </li>
+                       {% endif %}
+
+
+                        {% if Answers.has_next %}
+                                <li>
+                                   <a href="?page={{ Answers.next_page_number }}" aria-label="Next">
+                                       <span aria-hidden="true">&raquo;</span>
+                                   </a>
+                                </li>
+                        {% endif %}
+
+                   </ul>
+               </nav>
+        {% endif %}
     </div>
-    <div class="input-answer-container">
-        <form class="form">
-            <div class="form-group">
-                <textarea type="text" class="form-control question-textarea" rows="5" id="inputText" placeholder="Enter your answer here..." maxlength="500"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Answer</button>
-            </div>
-        </form>
-    </div>
+    {% if User %}
+        <div class="input-answer-container">
+            <form class="form">
+                <div class="form-group">
+                    <textarea type="text" class="form-control question-textarea" rows="5" id="inputAnswer" placeholder="Enter your answer here..." maxlength="500"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Answer</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
 </div>   
 {% endblock %}
