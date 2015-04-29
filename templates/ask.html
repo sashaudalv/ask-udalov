@@ -3,7 +3,7 @@
 {% block title %}New Question{% endblock %}
 
 {% block stylesheets %}
-    <link href="http://ask-udalov.me/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="/bootstrap-tagsinput.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
                <div class="form-group">
                    <label for="inputTitle" class="col-xs-1 control-label">Title</label>
                    <div class="col-xs-11">
-                       <input type="text" class="form-control" id="inputTitle" maxlength="51" placeholder="Title">
+                       <textarea type="text" class="form-control question-textarea" id="inputTitle" rows=1 maxlength="200" placeholder="Title"></textarea>
                    </div>
                </div>
                <div class="form-group">
@@ -42,6 +42,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="http://ask-udalov.me/bootstrap-tagsinput.js"></script>
-    <script src="http://ask-udalov.me/bootstrap-tagsinput-angular.js"></script>
+    <script src="/bootstrap-tagsinput.js"></script>
+    <script src="/bootstrap-tagsinput-angular.js"></script>
 {% endblock %}

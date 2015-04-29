@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from ask.models import User, Question, Answer, QuestionLike, AnswerLike, Tag
+from ask.models import CustomUser, Question, Answer, QuestionLike, AnswerLike, Tag
 from loremipsum import get_sentences, generate_paragraph
 from django.core.exceptions import ValidationError
 from faker import Faker
@@ -18,7 +18,7 @@ class Command(BaseCommand):
     questions_likes_len = 1500000
 
     def handle(self, *args, **options):
-        # User.objects.all().delete()
+        # CustomUser.objects.all().delete()
         # Question.objects.all().delete()
         # Answer.objects.all().delete()
         # QuestionLike.objects.all().delete()
@@ -27,23 +27,21 @@ class Command(BaseCommand):
 
         fake = Faker()
 
-        # for i in range(self.users_len):
-        #     try:
-        #         self.stdout.write('Creating user "%d"' % i)
-        #         u = User.objects.create(login=str(i),
-        #                                 nick_name=fake.name(),
-        #                                 email=str(i) + '@gmail.com',
-        #                                 password='1234',
-        #                                 avatar='http://lorempixel.com/75/75',
-        #                                 )
-        #         u.save()
-        #     except django.db.IntegrityError:
-        #         self.stderr.write('Fail create user "%d"' % i)
-        #
+        for i in range(self.users_len):
+            if i % 10 == 0:
+                self.stdout.write('Creating user "%d"' % i)
+            u = CustomUser.objects.create(username=str(i),
+                                        first_name=fake.name(),
+                                        email=words[i] + '@gmail.com',
+                                        password='1234',
+                                        avatar='http://lorempixel.com/75/75',
+                                        )
+            u.save()
+
         # for i in range(self.questions_len):
         #     self.stdout.write('Creating question "%d"' % i)
         #     q = Question.objects.create(user_id=random.randint(1, self.users_len),
-        #                                 title=get_sentences(1)[0] + '?',
+        #                                 title=get_sentences(1)[0][:-1] + '?',
         #                                 text=generate_paragraph()[2],
         #                                 created=fake.date(),
         #                                 )
@@ -93,15 +91,12 @@ class Command(BaseCommand):
         #         l.save()
         #     except django.db.IntegrityError:
         #         self.stderr.write('Fail crate answer_like "%d"' % i)
-
+        #
         # for i in range(self.tags_len):
-        #     try:
-        #         if i % 10 == 0:
-        #             self.stdout.write('Creating tag "%d"' % i)
-        #         t = Tag.objects.create(name=words[i])
-        #         t.save()
-        #     except django.db.IntegrityError:
-        #         self.stderr.write('Fail create tag "%d"' % i)
+        #     if i % 10 == 0:
+        #         self.stdout.write('Creating tag "%d"' % i)
+        #     t = Tag.objects.create(name=words[i])
+        #     t.save()
 
         # try:
         #     thread.start_new_thread( linkTags, (1, 24999) )
@@ -131,6 +126,17 @@ class Command(BaseCommand):
         #     thread.start_new_thread( countQuestionLikes, (25000, 49999) )
         #     thread.start_new_thread( countQuestionLikes, (50000, 74999) )
         #     thread.start_new_thread( countQuestionLikes, (75000, 100001) )
+        # except:
+        #     print "Error: unable to start thread"
+        #
+        # while 1:
+        #     pass
+
+        # try:
+        #     thread.start_new_thread( countAnsw, (1, 24999) )
+        #     thread.start_new_thread( countAnsw, (25000, 49999) )
+        #     thread.start_new_thread( countAnsw, (50000, 74999) )
+        #     thread.start_new_thread( countAnsw, (75000, 100001) )
         # except:
         #     print "Error: unable to start thread"
         #
@@ -173,16 +179,16 @@ class Command(BaseCommand):
         #     q.num_answers = len(answers)
         #     q.save()
 
-        try:
-            thread.start_new_thread( setCorrectAnsw, (19879, 24999) )
-            # thread.start_new_thread( setCorrectAnsw, (25000, 49999) )
-            thread.start_new_thread( setCorrectAnsw, (56300, 74999) )
-            thread.start_new_thread( setCorrectAnsw, (79910, 100001) )
-        except:
-            print "Error: unable to start thread"
-
-        while 1:
-            pass
+        # try:
+        #     thread.start_new_thread( setCorrectAnsw, (19879, 24999) )
+        #     # thread.start_new_thread( setCorrectAnsw, (25000, 49999) )
+        #     thread.start_new_thread( setCorrectAnsw, (56300, 74999) )
+        #     thread.start_new_thread( setCorrectAnsw, (79910, 100001) )
+        # except:
+        #     print "Error: unable to start thread"
+        #
+        # while 1:
+        #     pass
 
 
 def makeAnswLikes(start, end):
@@ -205,11 +211,12 @@ def linkTags(start, end):
             print('Linking tags "%d"' % i)
         q = Question.objects.get(id=i)
         for j in range(random.randint(1,3)):
+            t = Tag.objects.get(id=random.randint(1, Command.tags_len))
             try:
-                t = Tag.objects.get(id=random.randint(1, Command.tags_len))
-                t.questions.add(q)
+                q.tags.add(t)
+                q.save()
             except django.db.IntegrityError:
-                 print '\033[93m' + 'Fail link tag "%d"' % t.id + '\033[0m'
+                 print '\033[93m' + 'Fail link tag "%d"' % q.id + '\033[0m'
 
 
 def countQuestionLikes(start, end):
@@ -244,3 +251,12 @@ def countAnswLikes(start, end):
             for like in likes:
                 a.rating += like.likeType
             a.save()
+
+def countAnsw(start, end):
+    for i in range(start, end):
+        if i % 10 == 0:
+            print 'Count answers - question "%d"' % i
+        q = Question.objects.get(id=i)
+        answers = Answer.objects.filter(question_id=i)
+        q.num_answers = len(answers)
+        q.save()

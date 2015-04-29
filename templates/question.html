@@ -10,7 +10,7 @@
                <div class="col-xs-2">
                    <div class="question-left">
                        <a class="question-avatar-link" id="question-avatar">
-                           <img src="{{Question.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
+                           <img src="{{Question.user_ptr.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                        </a>
                        <div class="btn-group btn-group-xs likes-container">
                            <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
@@ -28,9 +28,9 @@
                        <div id="question-body">{{Question.text}}</div>
                    </div>
                    <div class="question-tags" id="one-question-tags">
-                       {% for tag in Tags %}
+                       {% for tag in Question.tags.all %}
                        <span> 
-                           <a href="/?tag={{tag.name}}" class="label label-primary tags">{{tag.name}}</a>
+                           <a href="{% url 'tagged-questions' tag.name %}" class="label label-primary tags">{{tag.name}}</a>
                        </span>
                        {% endfor %}
                    </div>
@@ -49,7 +49,7 @@
                <div class="col-xs-2">
                    <div class="answer-left">
                        <a class="question-avatar-link" id="question-avatar">
-                           <img src="{{answer.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
+                           <img src="{{answer.user_ptr.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                        </a>
                        <div class="btn-group btn-group-xs likes-container">
                            <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
@@ -67,10 +67,8 @@
                    </div>
                    <div class="row">
                        <div class="col-xs-2">
-                           <div class="checkbox {% if User.id != answer.user %} disabled {% endif %}">
-                               <label>
-                                   <input type="checkbox" {% if answer.isCorrect %} checked {% endif %} {% if User.id != answer.user %} disabled {% endif %}> Correct!
-                               </label>
+                           <div class="checkbox {% if User.user_ptr_id != answer.user_ptr %} disabled {% endif %}">
+                               <label><input type="checkbox" {% if answer.isCorrect %} checked {% endif %} {% if User.user_ptr_id != answer.user_ptr %} disabled {% endif %}> Correct!</label>
                            </div>
                        </div>
                        <div class="col-xs-10">
@@ -144,7 +142,7 @@
         <div class="input-answer-container">
             <form class="form">
                 <div class="form-group">
-                    <textarea type="text" class="form-control question-textarea" rows="5" id="inputAnswer" placeholder="Enter your answer here..." maxlength="500"></textarea>
+                    <textarea type="text" class="form-control question-textarea" rows="5" id="inputAnswer" placeholder="Enter your answer here..."></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Answer</button>

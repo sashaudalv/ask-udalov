@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.template.defaulttags import register
-from models import User, Question, Answer, AnswerLike, QuestionLike, Tag
+from models import CustomUser, Question, Answer, AnswerLike, QuestionLike, Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
-u = User.objects.get(id=1) #TODO make user identification
+u = CustomUser.objects.get(user_ptr_id=10) #TODO make user identification
 
 @register.filter
 def get_item(dictionary, key):
@@ -17,26 +17,35 @@ def times(number):
     return range(1, number + 1)
 
 
-def index(request):
+def index(request, tag=None):
     sortBy = request.GET.get('sort')
-    tag = request.GET.get('tag')
 
-    if not tag and not sortBy:
+    q = None
+
+    if not sortBy:
         sortBy = 'top'
 
-    if sortBy:
-        if sortBy == 'top':
-            q = Question.objects.all().order_by('-rating')
-            q = q[:20]
-        elif sortBy == 'new':
-            q = Question.objects.all().order_by('-created')
-            q = q[0:20:-1]
-        else:
-            q = Question.objects.all()
+    if tag:
+        try:
+            t = Tag.objects.get(name=tag)
+        except Tag.DoesNotExist:
+            raise Http404
+        q = Question.objects.filter(tags__id=t.id)
 
+    if not q:
+        q = Question.objects.all()
+
+
+    if sortBy == 'top':
+        q = q.order_by('-rating')
+        q = q[:20]
+    elif sortBy == 'new':
+        q = q.order_by('-created')
+        q = q[0:20]
     else:
-        t = Tag.objects.get(name=tag)
-        q = t.questions.all()
+        q = q.order_by('created')
+
+
 
 
     paginator = Paginator(q, 20) # Show 20 questions per page
@@ -56,7 +65,7 @@ def index(request):
     showFirst = False
     showLast = False
 
-    if int(questions.number) > 4:
+    if int(questions.number) > 5:
         showFirst = True
 
     if int(questions.number) < questions.paginator.num_pages - 4:
@@ -89,8 +98,6 @@ def question(request, question_id):
 
     paginator = Paginator(a, 10) # Show 10 answers per page
 
-    t = Tag.objects.filter(questions__id=q.id)
-
     page = request.GET.get('page')
 
     try:
@@ -106,7 +113,7 @@ def question(request, question_id):
     showFirst = False
     showLast = False
 
-    if int(answers.number) > 4:
+    if int(answers.number) > 5:
         showFirst = True
 
     if int(answers.number) < answers.paginator.num_pages - 4:
@@ -124,7 +131,7 @@ def question(request, question_id):
         showFirst = False
         showLast = False
 
-    context = {'User' : u,'Question' : q, 'Answers' : answers, 'Tags' : t, 'page_numbers' : page_numbers, 'showFirst' : showFirst, 'showLast' : showLast}
+    context = {'User' : u,'Question' : q, 'Answers' : answers, 'page_numbers' : page_numbers, 'showFirst' : showFirst, 'showLast' : showLast}
 
     return render(request, 'question.html', context)
 

@@ -1,49 +1,49 @@
 from django.db import models
+from django.contrib.auth.models import User
 import datetime
 
-
-class User(models.Model):
-    login = models.CharField(max_length=50, unique=True)
-    nick_name = models.CharField(max_length=50)
-    email = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=50)
-    avatar = models.CharField(max_length=50)
-    isActive = models.BooleanField(default=True)
+class CustomUser(User):
+    avatar = models.ImageField()
     rating = models.IntegerField(default=0)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=20, unique=True)
 
 
 class Question(models.Model):
-    user = models.ForeignKey(User)
+    user_ptr = models.ForeignKey(CustomUser)
     title = models.CharField(max_length=200)
-    text = models.CharField(max_length=500)
+    text = models.TextField()
     created = models.DateTimeField(default=datetime.datetime.now)
     rating = models.IntegerField(default=0)
     num_answers = models.IntegerField(default=0)
+    tags = models.ManyToManyField(Tag)
 
 
 class Answer(models.Model):
-    user = models.ForeignKey(User)
+    user_ptr = models.ForeignKey(CustomUser)
     question = models.ForeignKey(Question)
-    text = models.CharField(max_length=500)
+    text = models.TextField()
     isCorrect = models.BooleanField(default=False)
     rating = models.IntegerField(default=0)
     created = models.DateTimeField(default=datetime.datetime.now)
 
 
 class QuestionLike(models.Model):
-    user = models.ForeignKey(User)
+    user_ptr = models.ForeignKey(CustomUser)
     likeType = models.IntegerField(default=0) #can be -1, 0, 1
     question = models.ForeignKey(Question)
     class Meta:
-        unique_together = ('user', 'question',)
+        unique_together = ('user_ptr', 'question',)
 
 
 class AnswerLike(models.Model):
-    user = models.ForeignKey(User)
+    user_ptr = models.ForeignKey(CustomUser)
     likeType = models.IntegerField(default=0)
     answer = models.ForeignKey(Answer)
     class Meta:
-        unique_together = ('user', 'answer',)
+        unique_together = ('user_ptr', 'answer',)
 
 
 # class UserLike(models.Model):
@@ -54,7 +54,5 @@ class AnswerLike(models.Model):
 #         unique_together = ('user', 'anotherUser',)
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=20, unique=True)
-    questions = models.ManyToManyField(Question)
+
 

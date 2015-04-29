@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>{% block title %}AskUdalov{% endblock %}</title>
     <!-- Bootstrap -->
-    <link href="http://ask-udalov.me/bootstrap.css" rel="stylesheet">
-    <link href="http://ask-udalov.me/blog.css" rel="stylesheet">
+    <link href="/bootstrap.css" rel="stylesheet">
+    <link href="/blog.css" rel="stylesheet">
     {% block stylesheets %}{% endblock %}
   </head>
   <body>
@@ -13,7 +13,7 @@
           <nav class="navbar navbar-default">
             <div class="row navbar-container">
                 <div class="col-xs-2">
-                    <a class="navbar-brand" rel="home" href="/" title="AskUdalov - Homepage">AskUdalov</a>
+                    <a class="navbar-brand" rel="home" href="{% url 'home' %}" title="AskUdalov - Homepage">AskUdalov</a>
                 </div>
                     <div class="col-xs-7">
                         <form class="nav-search" role="search">
@@ -30,19 +30,19 @@
                     <div class="col-xs-3">
                         {% if User %}
                             <div id="authorized_user">
-                                <a href="#" class="navbar-avatar-link">
+                                <a class="navbar-avatar-link">
                                     <img src="{{User.avatar}}" class="img-circle navbar-avatar-img" id="avatar">  
                                 </a>
                                 <div class="user-block">
-                                    <div id="user_name" class="user-name-header">{{User.nick_name}}</div>
+                                    <div id="user_name" class="user-name-header">{{User.first_name}}</div>
                                     <a href="#" class="navbar-link" id="user-block-settings">settings</a>
                                     <a href="#" class="navbar-link">log out</a>
                                 </div>
                             </div>
                         {% else %}
                             <div class="hidden-user-block" id="non_authorized_user">
-                                 <a href="/login" class="navbar-link" id="hidden-user-block-log-in">log in</a>
-                                 <a href="/register" class="navbar-link">register</a>
+                                 <a href="{% url 'login' %}" class="navbar-link" id="hidden-user-block-log-in">log in</a>
+                                 <a href="{% url 'signup' %}" class="navbar-link">register</a>
                             </div>
                         {% endif %}
                     </div>
@@ -52,7 +52,7 @@
               <div class="col-xs-3 blog-sidebar">
                   {% if User %}
                       <div class="new-question-btn">
-                        <a type="button" href="/ask" class="btn btn-success btn-block">Ask Question!</a> 
+                        <a type="button" href="{% url 'add-question' %}" class="btn btn-success btn-block">Ask Question!</a> 
                       </div>
                   {% endif %}
                   <div class="sidebar-module sidebar-module-inset">

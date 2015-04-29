@@ -13,12 +13,10 @@
     
     <div class="questions-by-tag-container">
         
-        {% if sortBy %}
-            <div class="h_tags">{{sortBy|title}} Questions</div>
-        {% endif %}
-        
         {% if tag %}
             <div class="h_tags">Tag: {{tag}}</div>
+        {% else %}
+            <div class="h_tags">{{sortBy|title}} Questions</div>
         {% endif %}
         
         {% for question in Questions %}
@@ -27,7 +25,7 @@
                    <div class="col-xs-2">
                        <div class="question-left">
                            <a class="question-avatar-link" id="question-avatar">
-                               <img src="{{question.user.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
+                               <img src="{{question.user_ptr.avatar}}" class="img-rounded question-avatar-img" id="avatar">  
                            </a>
                            <div class="btn-group btn-group-xs likes-container">
                                <button href="#" class="btn btn-success" id="like-btn-left">                                             <span class="glyphicon glyphicon-plus"></span>
@@ -41,26 +39,18 @@
                    </div>
                    <div class="col-xs-10">
                        <div class="question-right">
-                           <a href="/question/{{question.id}}"><div class="question-header" id="question-header">{{question.title}}</div></a>
-                           <div id="question-body">{{question.text|truncatewords:30}}</div>
+                           <a href="{% url 'question' question.id %}"><div class="question-header" id="question-header">{{ question.title }}</div></a>
+                           <div id="question-body">{{ question.text|truncatewords:30 }}</div>
                        </div>
-                       <div class="row">
-                           <div class="col-xs-2">
-                               <div class="answers-btn">
-                                   <button class="btn btn-success btn-xs" type="button" id="answers-btn">
-                                             Answers <span class="badge">{{question.num_answers}}</span>
-                                   </button>
-                               </div>
-                           </div>
-                           <div class="col-xs-7 col-xs-offset-3">
-                               <div class="question-tags">
-                                   {% for tag in question.tag %}
-                                       <span> 
-                                           <a href="#" class="label label-primary tags">{{tag}}</a>
-                                       </span>
-                                   {% endfor %}
-                               </div>
-                           </div>
+                       <div class="question-tags">
+                           {% for tag in question.tags.all %}
+                                <span> 
+                                    <a href="{% url 'tagged-questions' tag.name %}" class="label label-primary tags">{{ tag.name }}</a>
+                                </span>
+                           {% endfor %}
+                       </div>
+                       <div class="created-field">
+                            <div class="text">{{ question.created|date:"d M Y" }} {{ question.created|time:"H:i" }}</div>
                        </div>
                    </div>
                </div>
@@ -72,7 +62,7 @@
 
                        {% if Questions.has_previous %}
                                 <li>
-                                   <a href="?page={{ Questions.previous_page_number }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                   <a href="?page={{ Questions.previous_page_number }}{% if sortBy %}&sort={{sortBy}}{% endif %}" aria-label="Previous">
                                        <span aria-hidden="true">&laquo;</span>
                                    </a>
                                 </li>
@@ -81,7 +71,7 @@
             
                        {% if showFirst %}
                             <li>
-                                <a href="?page=1{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                <a href="?page=1{% if sortBy %}&sort={{sortBy}}{% endif %}" aria-label="Previous">
                                     <span aria-hidden="true">1</span>
                                 </a>
                             </li>
@@ -93,7 +83,7 @@
 
                        {% for page in page_numbers %}
                             <li {% if page == Questions.number %} class="active" {% endif %}>
-                                <a href="?page={{ page }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}">
+                                <a href="?page={{ page }}{% if sortBy %}&sort={{sortBy}}{% endif %}">
                                     <span aria-hidden="true">{{ page }}</span>
                                 </a>
                             </li>
@@ -104,7 +94,7 @@
                                 <span aria-hidden="true">...</span>
                             </li>
                             <li>
-                                <a href="?page={{ Questions.paginator.num_pages }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Previous">
+                                <a href="?page={{ Questions.paginator.num_pages }}{% if sortBy %}&sort={{sortBy}}{% endif %}" aria-label="Previous">
                                     <span aria-hidden="true">{{ Questions.paginator.num_pages }}</span>
                                 </a>
                             </li>
@@ -113,7 +103,7 @@
 
                         {% if Questions.has_next %}
                                 <li>
-                                   <a href="?page={{ Questions.next_page_number }}{% if tag %}&&tag={{tag}}{% endif %}{% if sortBy %}&&sort={{sortBy}}{% endif %}" aria-label="Next">
+                                   <a href="?page={{ Questions.next_page_number }}{% if sortBy %}&sort={{sortBy}}{% endif %}" aria-label="Next">
                                        <span aria-hidden="true">&raquo;</span>
                                    </a>
                                 </li>
