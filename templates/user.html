@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}User{% endblock %}
+
+{% block content %}
+    <div class="col-xs-9">
+        <div class="user-page-container">
+            <div class="user-page-username">{{ user.first_name }}</div>
+            <div class="user-info-container">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="{{ user.avatar.url }}" class="img-rounded user-page-avatar">
+                        <div class="user-reputation">{{ user.rating }}</div>
+                        <p id="reputation-title">reputation</p>
+                    </div>
+                    <div class="col-xs-9">
+                        <p><b>email</b> {{ user.email }}</p>
+                        <p><b>member for</b> {{ member_for }} hours</p>
+                        <p><b>last login</b>(UTC +0) {{ user.last_login|date:"d M Y" }} {{ user.last_login|time:"H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

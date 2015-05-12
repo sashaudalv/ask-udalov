@@ -31,17 +31,17 @@
                         {% if User %}
                             <div id="authorized_user">
                                 <a class="navbar-avatar-link">
-                                    <img src="{{User.avatar}}" class="img-circle navbar-avatar-img" id="avatar">  
+                                    <img src="{{ User.avatar.url }}" class="img-circle navbar-avatar-img" id="avatar">  
                                 </a>
                                 <div class="user-block">
                                     <div id="user_name" class="user-name-header">{{User.first_name}}</div>
-                                    <a href="#" class="navbar-link" id="user-block-settings">settings</a>
-                                    <a href="#" class="navbar-link">log out</a>
+                                    <a href="{% url 'settings' %}" class="navbar-link" id="user-block-settings">settings</a>
+                                    <a href="{% url 'logout' %}?next={{ request.path }}" class="navbar-link">log out</a>
                                 </div>
                             </div>
                         {% else %}
                             <div class="hidden-user-block" id="non_authorized_user">
-                                 <a href="{% url 'login' %}" class="navbar-link" id="hidden-user-block-log-in">log in</a>
+                                 <a href="{% url 'login' %}?next={{ request.path }}" class="navbar-link" id="hidden-user-block-log-in">log in</a>
                                  <a href="{% url 'signup' %}" class="navbar-link">register</a>
                             </div>
                         {% endif %}

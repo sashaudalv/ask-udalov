@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+def get_upload_filename(instance, filename):
+    return "%s_%s" % (instance.id, filename)
+
 class CustomUser(User):
-    avatar = models.ImageField()
+    avatar = models.ImageField(upload_to=get_upload_filename)
     rating = models.IntegerField(default=0)
 
 

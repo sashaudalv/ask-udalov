@@ -7,51 +7,68 @@
    <div class="registration-container panel panel-primary">
        <div class="h_tags panel-heading" id="panel-h">Registration</div>
        <div class="panel-body">
-           <div class="alert alert-danger" role="alert">
-               <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-               Sorry, this email address already registred!
-           </div>
-           <form class="form-horizontal">
+           {% for error in form.non_field_errors%}
+               <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+           {% endfor %}
+           <form class="form-horizontal" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+               {% csrf_token %}
                <div class="form-group">
-                   <label for="inputLogin" class="col-xs-3 control-label">Login</label>
+                   <label for="id_login" class="col-xs-3 control-label">Login</label>
                    <div class="col-xs-4">
-                       <input type="text" class="form-control" id="inputLogin" maxlength="15" placeholder="Login">
+                       <input type="text" class="form-control" name="login" id="id_login" maxlength="30" placeholder="Login" value="{{ form.cleaned_data.login }}">
                    </div>
+                   {% for error in form.login.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
-                   <label for="inputEmail" class="col-xs-3 control-label">Email</label>
+                   <label for="id_email" class="col-xs-3 control-label">Email</label>
                    <div class="col-xs-4">
-                       <input type="email" class="form-control" maxlength="20" id="inputEmail" placeholder="Email">
+                       <input type="email" name="email" class="form-control" maxlength="30" id="id_email" placeholder="Email" value="{{ form.cleaned_data.email }}">
                    </div>
+                   {% for error in form.email.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
-                   <label for="inputNickName" class="col-xs-3 control-label">NickName</label>
+                   <label for="id_nickName" class="col-xs-3 control-label">NickName</label>
                    <div class="col-xs-4">
-                       <input type="text" class="form-control" id="inputNickName" maxlength="15" placeholder="NickName">
+                       <input type="text" class="form-control" name="nickName" id="id_nickName" maxlength="30" placeholder="NickName" value="{{ form.cleaned_data.nickName }}">
                    </div>
+                   {% for error in form.nickName.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
-                   <label for="inputPassword" class="col-xs-3 control-label">Password</label>
+                   <label for="id_password1" class="col-xs-3 control-label">Password</label>
                    <div class="col-xs-4">
-                       <input type="password" class="form-control" maxlength="20" id="inputPassword" placeholder="Password">
+                       <input type="password" class="form-control" maxlength="30" name="password1" id="id_password1" placeholder="Password">
                    </div>
+                   {% for error in form.password1.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
-                   <label for="inputRepeatPassword" class="col-xs-3 control-label">Reapeat password</label>
+                   <label for="id_password2" class="col-xs-3 control-label">Reapeat password</label>
                    <div class="col-xs-4">
-                       <input type="password" class="form-control" maxlength="20" id="inputRepeatPassword" placeholder="Repeat Password">
+                       <input type="password" class="form-control" maxlength="30" name="password2" id="id_password2" placeholder="Repeat Password">
                    </div>
+                   {% for error in form.password2.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
-                   <label for="inputAvatar" class="col-xs-3 control-label">Upload avatar</label>
-                   <div class="col-xs-9">
-                       <input type="file" id="inputAvatar" accept="image/x-png, image/gif, image/jpeg">
-                       <p class="help-block">Please choose image 100x100px</p>
+                   <label for="id_avatar" class="col-xs-3 control-label">Upload avatar</label>
+                   <div class="col-xs-5">
+                       {{ form.avatar }}
                    </div>
+                   {% for error in form.avatar.errors %}
+                        <div class="col-xs-3 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
                    <div class="col-xs-offset-3 col-xs-4">
-                       <button type="submit" class="btn btn-success">Register!</button>
+                       <button type="submit" class="btn btn-success" value="Register">Register!</button>
                    </div>
                </div>
            </form>

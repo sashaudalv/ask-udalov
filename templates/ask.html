@@ -11,24 +11,28 @@
    <div class="ask-question-container panel panel-success">
        <div class="h_tags panel-heading" id="panel-h">New Question</div>
        <div class="panel-body">
-           <form class="form-horizontal">
+           <form class="form-horizontal" name="askForm" method="post" onsubmit="return askFormValidate()" action="{%  url 'add-question' %}">
+               {% csrf_token %}
                <div class="form-group">
-                   <label for="inputTitle" class="col-xs-1 control-label">Title</label>
+                   <label for="id_title" class="col-xs-1 control-label">Title</label>
                    <div class="col-xs-11">
-                       <textarea type="text" class="form-control question-textarea" id="inputTitle" rows=1 maxlength="200" placeholder="Title"></textarea>
+                       <textarea type="text" class="form-control question-textarea" name="title" id="id_title" rows=1 maxlength="200" placeholder="Title">{{ form.cleaned_data.title }}</textarea>
                    </div>
                </div>
                <div class="form-group">
-                   <label for="inputText" class="col-xs-1 control-label">Text</label>
+                   <label for="id_text" class="col-xs-1 control-label">Text</label>
                    <div class="col-xs-11">
-                       <textarea type="text" class="form-control question-textarea" rows="5" id="inputText" placeholder="Text"></textarea>
+                       <textarea type="text" class="form-control question-textarea" rows="5" name="text" id="id_text" placeholder="Text">{{ form.cleaned_data.text }}</textarea>
                    </div>
                </div>
                <div class="form-group">
                    <label for="inputTags" class="col-xs-1 control-label">Tags</label>
-                   <div class="col-xs-11">
-                       <input type="text" class="form-control" id="inputTags" data-role="tagsinput" placeholder="Tags">
+                   <div class="col-xs-7">
+                       <input type="text" class="form-control" name="tags" id="id_tags" data-role="tagsinput" placeholder="Tags" value="{{ form.cleaned_data.tags }}">
                    </div>
+                   {% for error in form.tags.errors %}
+                        <div class="col-xs-4 alert alert-danger" role="alert" id="field-error"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ error }}</div>
+                   {% endfor %}
                </div>
                <div class="form-group">
                    <div class="col-xs-offset-1 col-xs-11">
@@ -42,6 +46,23 @@
 {% endblock %}
 
 {% block scripts %}
+    <script> 
+         function askFormValidate() {
+            var a=document.forms["askForm"]["title"].value;
+            var b=document.forms["askForm"]["text"].value;
+            if (a==null || a=="") {
+              $('#id_title').parent().addClass('has-error');
+              $('#id_title').popover({ content: 'This field is required' });
+            }
+            if (b==null || b=="") {
+              $('#id_text').parent().addClass('has-error');
+              $('#id_text').popover({ content: 'This field is required' });
+            }
+            if (a==null || a=="" || b==null || b=="") {
+                return false;
+            }            
+         };
+    </script>
     <script src="/bootstrap-tagsinput.js"></script>
     <script src="/bootstrap-tagsinput-angular.js"></script>
 {% endblock %}
